@@ -8,5 +8,5 @@ To include Nan.h headers in Clangd, create a file named .clangd in the root with
 ```
 CompileFlags:
   Add:
-    - "--include-directory=/home/manager/.nvm/versions/node/v12.22.7/lib/node_modules/nan/"
+    - "--include-directory=~/.nvm/versions/node/v12.22.7/lib/node_modules/nan/"
 ```
