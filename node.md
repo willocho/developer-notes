@@ -15,7 +15,23 @@ CompileFlags:
 
 ## C++
 
+### Running Perf
+
 `perf record -e cycles:u -g -- npm run start`
+
+### Listing symbols
+
+`perf probe -F --no-demangle --filter '*' -m --file-name-here.o--`
+
+In order to list the symbols, you need to probe the .o file at the bottom of the cpp directory. However, to add the probe, you should target the \*.node file under *gpp-events/build/Debug/*, or wherever the compiled node file is.
+
+This website explains the reasoning for many of the options: http://notes.secretsauce.net/notes/2019/12/16_c-probes-with-perf.html
+
+So the add command will look something like this
+
+`sudo perf probe --no-demangle -x ./gpp_events.node --add _ZN18HistogramDatastore9AddEventsEP17HistogramRawFrame`
+
+### Visualizing
 
 Use https://github.com/KDAB/hotspot to visualize the results
 
