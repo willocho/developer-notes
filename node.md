@@ -13,13 +13,24 @@ CompileFlags:
 
 # Performance monitoring
 
+The best source if you have questions or are looking for guidance is [Brendan Gregg's website](https://www.brendangregg.com/perf.html).
+
 ## C++
 
 ### Running Perf
 
 `perf record -e cycles:u -g -- npm run start`
 
-### Listing symbols
+Until the fix for [this issue](https://lore.kernel.org/lkml/20230427012841.231729-1-yangjihong1@huawei.com/T/#u) is in upstream (which may be a while), you'll need to manually install perf, otherwise you'll get a buffer overflow anytime the pylon library is loaded.
+
+
+### Visualizing
+
+Use https://github.com/KDAB/hotspot to visualize the results
+
+### Listing symbols and dynamic tracing
+
+Dynamic tracing is useful if you want to dynamically probe events, such as when the program enters and exits a function. This can be useful if you're only interested in how long a small subset of function take or if you're interested in the *"true"* time that a function takes to complete, as opposed to just the on-CPU time.
 
 `perf probe -F --no-demangle --filter '*' -m --file-name-here.o--`
 
@@ -30,10 +41,6 @@ This website explains the reasoning for many of the options: http://notes.secret
 So the add command will look something like this
 
 `sudo perf probe --no-demangle -x ./gpp_events.node --add _ZN18HistogramDatastore9AddEventsEP17HistogramRawFrame`
-
-### Visualizing
-
-Use https://github.com/KDAB/hotspot to visualize the results
 
 ## Javascript
 
