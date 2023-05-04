@@ -35,8 +35,7 @@ If you still get permission denied errors when running perf commands, try runnin
 
 `perf record -e cycles:u -g -- npm run start`
 
-Until the fix for [this issue](https://lore.kernel.org/lkml/20230427012841.231729-1-yangjihong1@huawei.com/T/#u) is in upstream (which may be a while), you'll need to manually install perf, otherwise you'll get a buffer overflow anytime the pylon library is loaded.
-
+Until the fix for [this issue](https://lore.kernel.org/lkml/20230427012841.231729-1-yangjihong1@huawei.com/T/#u) is in upstream (which may be a while), you'll need to manually clone the Linux kernel and build perf with the patch mentioned in the linked chain, otherwise you'll get a buffer overflow anytime the pylon library is loaded.
 
 ### Visualizing
 
