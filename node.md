@@ -15,6 +15,20 @@ CompileFlags:
 
 The best source if you have questions or are looking for guidance is [Brendan Gregg's website](https://www.brendangregg.com/perf.html).
 
+## Perf Permissions
+
+Perf has access to a lot of low level data, and at it's highest mode of running, it has access to CPU registers for any process on the system. Given it's access to sensitive data, security for perf is pretty locked down. Many commmands require access to the `/sys/kernel/tracing` directory.
+
+I reccomend
+
+  1. Creating a new user group called `tracing`
+  2. Adding your user to that group
+  3. Making that group owner of the `/sys/kernel/tracing` directory
+
+The alternative is giving your user CAP_PERFMON capabilities.
+
+If you still get permission denied errors when running perf commands, try running `sudo mount -o remount,mode=755 /sys/kernel/tracing/`
+
 ## C++
 
 ### Running Perf
@@ -28,7 +42,7 @@ Until the fix for [this issue](https://lore.kernel.org/lkml/20230427012841.23172
 
 Use https://github.com/KDAB/hotspot to visualize the results
 
-### Listing symbols and dynamic tracing
+### Listing Symbols and Dynamic Tracing
 
 Dynamic tracing is useful if you want to dynamically probe events, such as when the program enters and exits a function. This can be useful if you're only interested in how long a small subset of function take or if you're interested in the *"true"* time that a function takes to complete, as opposed to just the on-CPU time.
 
@@ -41,6 +55,10 @@ This website explains the reasoning for many of the options: http://notes.secret
 So the add command will look something like this
 
 `sudo perf probe --no-demangle -x ./gpp_events.node --add _ZN18HistogramDatastore9AddEventsEP17HistogramRawFrame`
+
+The last step is telling perf that you want to recrod data for the probes you just ran. You can use `perf probe -l` to list available probes, but it will typically be something like `probe_gpp_events`. Your command for running perf will be
+
+`perf record -e probe_gpp_events:* -g -- npm run start`
 
 ## Javascript
 
