@@ -41,6 +41,10 @@ Until the fix for [this issue](https://lore.kernel.org/lkml/20230427012841.23172
 
 Use https://github.com/KDAB/hotspot to visualize the results
 
+If you want a human readable text file after running instead of using hotspot, run this command
+
+`perf script > perf.data.txt`
+
 ### Listing Symbols and Dynamic Tracing
 
 Dynamic tracing is useful if you want to dynamically probe events, such as when the program enters and exits a function. This can be useful if you're only interested in how long a small subset of function take or if you're interested in the *"true"* time that a function takes to complete, as opposed to just the on-CPU time.
